@@ -1,0 +1,14 @@
+{
+	"name":"com.yimitools.codingeasy",
+	"version":"0.0.1",
+	"displayName":"Coding Easy",
+	"description":"编程辅助库，包含单例库，对象池库，集合扩展",
+	"unity":"2019.2",
+	"dependencies":{},
+	"keywords":["utility",";ibrary"],
+	"author":{
+		"name":"Yimi Chen",
+		"email":"455022370@qq.com",
+		"url":"https://www.yimicgh.top"
+	}
+}
