@@ -1,14 +1,16 @@
 {
-	"name":"com.yimitools.codingeasy",
-	"version":"0.0.1",
-	"displayName":"Coding Easy",
-	"description":"编程辅助库，包含单例库，对象池库，集合扩展",
-	"unity":"2019.2",
-	"dependencies":{},
-	"keywords":["utility",";ibrary"],
-	"author":{
-		"name":"Yimi Chen",
-		"email":"455022370@qq.com",
-		"url":"https://www.yimicgh.top"
-	}
+  "name": "com.yimitools.codingeasy",
+  "version": "0.0.2",
+  "displayName": "Coding Easy",
+  "description": "\u7f16\u7a0b\u8f85\u52a9\u5e93\uff0c\u5305\u542b\u5355\u4f8b\u5e93\uff0c\u5bf9\u8c61\u6c60\u5e93\uff0c\u96c6\u5408\u6269\u5c55",
+  "unity": "2019.2",
+  "keywords": [
+    "utility",
+    ";ibrary"
+  ],
+  "author": {
+    "name": "Yimi Chen",
+    "email": "455022370@qq.com",
+    "url": "https://www.yimicgh.top"
+  }
 }
