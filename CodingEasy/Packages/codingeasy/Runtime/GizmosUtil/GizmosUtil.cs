@@ -145,4 +145,90 @@ public class GizmosUtil
         return vertices.ToArray();
     }
     #endregion
+
+
+    
+
+    #region Text
+    public static void DrawString(string text, Vector3 worldPos, Color? colour = null, Color? bgColor = null)
+    {
+        Rect textRect;
+        Rect bgRect;
+
+        UnityEditor.Handles.BeginGUI();
+        {
+            var view = UnityEditor.SceneView.currentDrawingSceneView;
+            Vector3 screenPos = view.camera.WorldToScreenPoint(worldPos);
+            Vector2 size = GUI.skin.label.CalcSize(new GUIContent(text));
+
+            textRect = new Rect(screenPos.x - (size.x / 2), -screenPos.y + view.position.height - 2 * size.y, size.x, size.y);
+            bgRect = new Rect(textRect.x, textRect.y, size.x + 5, size.y + 5);
+            GUI.color = bgColor.HasValue ? bgColor.Value : new Color(0, 0, 0, 0.7f);
+            GUI.DrawTexture(bgRect, Texture2D.whiteTexture, ScaleMode.StretchToFill);
+            var restoreColor = GUI.color;
+            GUI.color = colour.HasValue ? colour.Value : Color.white;
+
+            GUI.Label(textRect, text);
+            GUI.color = restoreColor;
+        }
+        UnityEditor.Handles.EndGUI();
+
+    }
+
+    public static void DrawTextArea(string text, Vector3 worldPos, Vector3 offset, Color? textColor = null, Color? lineColor = null, Color? bgColor = null)
+    {
+        var left = worldPos + offset;
+        GizmosUtility.DrawString(text, left, textColor.HasValue ? textColor.Value : Color.white, bgColor);
+        Gizmos.color = lineColor.HasValue ? lineColor.Value : Color.white;
+        Gizmos.DrawLine(worldPos, left);
+    }
+
+    static Color color;
+    static void PushColor()
+    {
+        color = Gizmos.color;
+    }
+    static void PopColor()
+    {
+        Gizmos.color = color;
+    }
+    public static void DrawArrow(Vector3 pos, Vector3 direction, Color? color = null, float arrowHeadLength = 0.5f, float arrowHeadAngle = 20.0f)
+    {
+        PushColor();
+        Gizmos.color = color ?? Color.white;
+
+        //arrow shaft
+        Gizmos.DrawRay(pos, direction);
+
+        if (direction != Vector3.zero)
+        {
+            //arrow head
+            Vector3 right = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180 + arrowHeadAngle, 0) * new Vector3(0, 0, 1);
+            Vector3 left = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180 - arrowHeadAngle, 0) * new Vector3(0, 0, 1);
+            Gizmos.DrawRay(pos + direction, right * arrowHeadLength);
+            Gizmos.DrawRay(pos + direction, left * arrowHeadLength);
+        }
+        PopColor();
+    }
+    #endregion
+    #region Other
+    public static void DrawRateBar(float value, float left, float right, Vector3 worldPos, Color? colour = null)
+    {
+        UnityEditor.Handles.BeginGUI();
+        {
+            var restoreColor = GUI.color;
+            var text = $"{value}/{right}";
+            if (colour.HasValue) GUI.color = colour.Value;
+
+            var view = UnityEditor.SceneView.currentDrawingSceneView;
+            Vector3 screenPos = view.camera.WorldToScreenPoint(worldPos);
+            Vector2 size = GUI.skin.label.CalcSize(new GUIContent(text));
+            var rect = new Rect(screenPos.x - (size.x / 2), -screenPos.y + view.position.height + 4, size.x, size.y);
+            GUI.Label(rect, text);
+            GUI.HorizontalSlider(new Rect(screenPos.x - 32, rect.y - 10, 64, 1), value, left, right, GUI.skin.horizontalSlider, GUI.skin.horizontalSliderThumb);
+            GUI.color = restoreColor;
+        }
+        UnityEditor.Handles.EndGUI();
+    }
+    #endregion
 }
